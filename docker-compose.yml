@@ -1,36 +1,34 @@
-version: '3.8'
+version: '3.1'
 
 services:
-  app:
-    build:
-      context: . 
+  addis-api:
+    build: 
+      context: .
       dockerfile: Dockerfile
     container_name: addis-api
     restart: always
     ports:
       - "${PORT}:${PORT}"
+    volumes:
+      - .:/usr/src/app
     environment:
       NODE_ENV: ${NODE_ENV}
       MONGODB_URI: ${MONGODB_URI}
     depends_on:
       - mongo
-    networks:
-      - addis-network
-
   mongo:
-    image: mongo:latest
-    container_name: mongo-container
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+
+  mongo-express:
+    image: mongo-express
     restart: always
     ports:
-      - "${MONGO_PORT}:${MONGO_PORT}"
-    volumes:
-      - mongo-data:/data/db
-    networks:
-      - addis-network
-
-networks:
-  addis-network:
-    driver: bridge
-
-volumes:
-  mongo-data:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@mongo:27017/

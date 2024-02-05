@@ -1,18 +1,16 @@
 
-FROM node:14-alpine
+FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm ci --only=production
+RUN npm install
 
 COPY . .
-
-ARG PORT=3000
 
 ENV PORT=${PORT}
 
 EXPOSE ${PORT}
 
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
