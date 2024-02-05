@@ -3,10 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "docker-compose -f docker-compose.yml up -d && yarn all:log",
+    "prod": "docker-compose up -d && yarn all:log",
+    "down": "docker-compose down",
+    "all:log": "docker-compose logs -f --tail 10",
+    "express:log": "docker-compose logs -f --tail 100 addis-api"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
-    "mongoos": "^0.0.1-security"
+    "mongoose": "^8.1.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }
