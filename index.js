@@ -14,7 +14,8 @@ const app = require("./app");
 const DB = process.env.MONGODB_URI;
 mongoose.connect(DB, {}).then(() => console.log("DB connection successful!"));
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
+console.log("port: " + process.env.PORT);
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });

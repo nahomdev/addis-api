@@ -1,15 +1,18 @@
 const express = require("express");
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
 const AppError = require("./utils/app_error");
 const GlobalErrorHandler = require("./controllers/error_controller");
+const songRoutes = require("./routes/song");
 
 const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
+
+app.use("/api/v1/song", songRoutes);
 
 app.get("/api/v1/test", (req, res, next) => {
   res.status(200).json({
